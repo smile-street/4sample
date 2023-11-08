@@ -3,7 +3,7 @@
   <rect width="100%" height="100%" fill="white"/>
 
   <!-- Text "Fujitsu" in red -->
-  <text x="12" y="45" font-size="12" fill="#FF0000">Fujitsu</text>
+  <text x="-12" y="40" font-size="30" fill="#FF0000">Fujitsu</text>
 
   <!-- Optional: You can keep the existing gradients if you want -->
   <defs>
