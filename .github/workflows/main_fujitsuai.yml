@@ -64,4 +64,4 @@ jobs:
         with:
           app-name: 'FujitsuAI'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_09229ADCFCCD4ECCA62F6DF2DFD8CD35 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_1289B8C1FD6B4274B7B6BA3FA6ED035C }}
