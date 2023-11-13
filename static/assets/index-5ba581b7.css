@@ -143,12 +143,51 @@ html {
     108.78% 108.78% at 50.02% 19.78%,
     #ffffff 57.29%,
     #eef6fe 100%
-  );
+  /* );
   box-shadow: 0 2px 4px #00000024, 0 0 2px #0000001f;
   border-radius: 8px;
   overflow-y: auto;
   max-height: calc(100vh - 100px);
+
+} */
+
+overflow: hidden; /* Ensure that the background image does not overflow */
+position: relative; /* Set the position to relative to position the image correctly */
 }
+
+._chatContainer_ry9lb_18::before {
+content: "";
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background-image: url("sample-app-aoai-chatGPT/static/assets/Azure.svg";); /* Replace with the path to your image */
+
+background-size: cover;
+background-position: center;
+z-index: -1; /* Place the image behind other content */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ._chatEmptyState_ry9lb_30 {
   flex-grow: 1;
   display: flex;
