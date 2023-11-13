@@ -180,8 +180,13 @@ html {
   color: #616161;
 }
 ._chatIcon_ry9lb_63 {
-  height: 100px;
-  width: 100px;
+ 
+    height: 300px; /* Adjust the height to your desired value */
+    width: auto;   /* Keep the aspect ratio when adjusting the height */
+    /* Add any other styles you may need */
+    background-color: transparent; /* Set the background color to match your page's background */
+    /* Add any other styles you may need */
+
 }
 ._chatMessageStream_ry9lb_68 {
   flex-grow: 1;

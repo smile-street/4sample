@@ -66,8 +66,7 @@
     height: 300px; /* Adjust the height to your desired value */
     width: auto;   /* Keep the aspect ratio when adjusting the height */
     /* Add any other styles you may need */
-    background-color: transparent; /* Set the background color to match your page's background */
-    /* Add any other styles you may need */
+    
 }
 
 .chatMessageStream {
