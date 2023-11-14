@@ -10,7 +10,8 @@ export const ShareButton: React.FC<ShareButtonProps> = ({onClick}) => {
           width: 86,
           height: 32,
           borderRadius: 4,
-          background: 'radial-gradient(109.81% 107.82% at 100.1% 90.19%, rgb(230, 0, 18) 33.63%, rgb(230, 0, 18) 70.31%, rgb(230, 0, 18) 100%)',
+          background: radial-gradient(109.81% 107.82% at 100.1% 90.19%, rgb(230, 0, 18) 33.63%, rgb(230, 0, 18) 70.31%, rgb(230, 0, 18) 100%);
+
         //   position: 'absolute',
         //   right: 20,
           padding: '5px 12px',

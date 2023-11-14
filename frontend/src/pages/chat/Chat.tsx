@@ -85,24 +85,24 @@ const Chat: React.FC = () => {
         subText: errorMsg?.subtitle,
     };
 
-    // Function to fetch the list of topics/questions
-    const getTopics = () => {
-    // In a real scenario, you might fetch this data from an API or database
-    // For now, we'll return a static array of topics/questions
-    return [
-      {
-        id: '1',
-        question: 'How does climate change affect ecosystems?',
-      },
-      {
-        id: '2',
-        question: 'What are the benefits of renewable energy?',
-      },
-    ];
-  };
+//     // Function to fetch the list of topics/questions
+//     const getTopics = () => {
+//     // In a real scenario, you might fetch this data from an API or database
+//     // For now, we'll return a static array of topics/questions
+//     return [
+//       {
+//         id: '1',
+//         question: 'How does climate change affect ecosystems?',
+//       },
+//       {
+//         id: '2',
+//         question: 'What are the benefits of renewable energy?',
+//       },
+//     ];
+//   };
 
   // Dropdown component
-  const TopicDropdown = ({ topics, selectedTopic, onSelectTopic }) => {
+  const Dropdown = ({ topics, selectedTopic, onSelectTopic }) => {
   }
     // Add this array right above the return statement in your component.
     const dropdownOptions = [
@@ -776,8 +776,9 @@ const [selectedTopic, setSelectedTopic] = React.useState<string | undefined>(und
                             />
                         </Stack>
                     </div>
+
                     {/* Citation Panel */}
-                    {/* {messages && messages.length > 0 && isCitationPanelOpen && activeCitation && ( 
+                    {messages && messages.length > 0 && isCitationPanelOpen && activeCitation && ( 
                     <Stack.Item className={styles.citationPanel} tabIndex={0} role="tabpanel" aria-label="Citations Panel">
                         <Stack aria-label="Citations Panel Header Container" horizontal className={styles.citationPanelHeaderContainer} horizontalAlign="space-between" verticalAlign="center">
                             <span aria-label="Citations" className={styles.citationPanelHeader}>Citations</span>
@@ -802,44 +803,5 @@ const [selectedTopic, setSelectedTopic] = React.useState<string | undefined>(und
     );
 };
 
-export default Chat; */}
-
-{/* Citation Panel */}
-{messages && messages.length > 0 && isCitationPanelOpen && activeCitation && ( 
-    <Stack.Item className={styles.citationPanel} tabIndex={0} role="tabpanel" aria-label="Citations Panel">
-        <Stack aria-label="Citations Panel Header Container" horizontal className={styles.citationPanelHeaderContainer} horizontalAlign="space-between" verticalAlign="center">
-            <span aria-label="Citations" className={styles.citationPanelHeader}>Citations</span>
-            <IconButton iconProps={{ iconName: 'Cancel'}} aria-label="Close citations panel" onClick={() => setIsCitationPanelOpen(false)}/>
-        </Stack>
-        <h5 className={styles.citationPanelTitle} tabIndex={0} title={activeCitation.url && !activeCitation.url.includes("blob.core") ? activeCitation.url : activeCitation.title ?? ""}>{activeCitation.title}</h5>
-        <div tabIndex={0}> 
-            <ReactMarkdown 
-                linkTarget="_blank"
-                className={styles.citationPanelContent}
-                children={activeCitation.content} 
-                remarkPlugins={[remarkGfm]} 
-                rehypePlugins={[rehypeRaw]}
-            />
-        </div>
-        {activeCitation.url && (
-            <span 
-                title={activeCitation.url} 
-                tabIndex={0} 
-                role="link" 
-                onClick={() => onViewSource(activeCitation)} 
-                onKeyDown={e => e.key === "Enter" || e.key === " " ? onViewSource(activeCitation) : null}
-                className={styles.viewSourceButton}
-                aria-label={activeCitation.url}
-            >
-                View Source
-            </span>
-        )}
-    </Stack.Item>
-)}
-{(appStateContext?.state.isChatHistoryOpen && appStateContext?.state.isCosmosDBAvailable?.status !== CosmosDBStatus.NotConfigured) && <ChatHistoryPanel/>}
-</Stack>
-)}
-</div>
-);
-        }
 export default Chat;
+
