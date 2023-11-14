@@ -60,7 +60,9 @@ const enum messageStatus {
 
 
 const Chat: React.FC = () => {
-    const [selectedTopic, setSelectedTopic] = useState<string | undefined>(undefined);
+    const [selectedTopic, setSelectedTopic] = useState(null);
+    // ... other component code
+    
     const [isLoading, setIsLoading] = useState(false);
     const [messages, setMessages] = useState([]);
     const appStateContext = useContext(AppStateContext)
@@ -101,25 +103,28 @@ const Chat: React.FC = () => {
 //   };
 
  // Dropdown component
-const Dropdown = ({ topics, selectedTopic, onSelectTopic }) => {
-    // Add this array right above the return statement in your component.
-    const dropdownOptions = [
-      { key: 'question1', text: 'What is the meaning of life?' },
-      { key: 'question2', text: 'Tell me about artificial intelligence.' },
-      // Add more questions as needed
-    ];
-  
-    return (
-      <Dropdown
-        placeholder="Select a question"
-        selectedKey={selectedTopic}  {/* Use selectedTopic here */}
-        onChange={(e, option) => onSelectTopic(option?.key as string)}  {/* Use onSelectTopic here */}
-        options={dropdownOptions}
-      />
-    );
-  };
 
  
+
+import { Dropdown, IDropdownOption } from '@fluentui/react';
+
+const dropdownOptions: IDropdownOption[] = topics.map(topic => ({
+    key: topic,
+    text: topic,
+}));
+
+return (
+    <Dropdown
+        placeholder="Select a question"
+        selectedKey={selectedTopic}
+        onChange={(e, option) => onSelectTopic(option?.key as string)}
+        options={dropdownOptions}
+    />
+);
+};
+
+export default DropdownComponent;
+
 
  // Handler for topic selection
  const handleSelectTopic = (topic: string) => {
