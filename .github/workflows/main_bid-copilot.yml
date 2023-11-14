@@ -64,4 +64,4 @@ jobs:
         with:
           app-name: 'Bid-Copilot'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_B8A9EB91286249459FBDF55882EB3B7E }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_C65BB347101E4607AD1551D2037ED49C }}
