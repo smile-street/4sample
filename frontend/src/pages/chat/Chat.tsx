@@ -572,7 +572,7 @@ const Chat = () => {
                         {!messages || messages.length < 1 ? (
                             <Stack className={styles.chatEmptyState}>
                                 <img
-                                    src={Azure}
+                                    src={Az}
                                     className={styles.chatIcon}
                                     aria-hidden="true"
                                 />
@@ -697,7 +697,7 @@ const Chat = () => {
                         </Stack>
                     </div>
                     {/* Citation Panel */}
-                    {messages && messages.length > 0 && isCitationPanelOpen && activeCitation && ( 
+                    {/* {messages && messages.length > 0 && isCitationPanelOpen && activeCitation && ( 
                     <Stack.Item className={styles.citationPanel} tabIndex={0} role="tabpanel" aria-label="Citations Panel">
                         <Stack aria-label="Citations Panel Header Container" horizontal className={styles.citationPanelHeaderContainer} horizontalAlign="space-between" verticalAlign="center">
                             <span aria-label="Citations" className={styles.citationPanelHeader}>Citations</span>
@@ -722,4 +722,45 @@ const Chat = () => {
     );
 };
 
+export default Chat; */}
+
+{/* Citation Panel */}
+{messages && messages.length > 0 && isCitationPanelOpen && activeCitation && ( 
+    <Stack.Item className={styles.citationPanel} tabIndex={0} role="tabpanel" aria-label="Citations Panel">
+        <Stack aria-label="Citations Panel Header Container" horizontal className={styles.citationPanelHeaderContainer} horizontalAlign="space-between" verticalAlign="center">
+            <span aria-label="Citations" className={styles.citationPanelHeader}>Citations</span>
+            <IconButton iconProps={{ iconName: 'Cancel'}} aria-label="Close citations panel" onClick={() => setIsCitationPanelOpen(false)}/>
+        </Stack>
+        <h5 className={styles.citationPanelTitle} tabIndex={0} title={activeCitation.url && !activeCitation.url.includes("blob.core") ? activeCitation.url : activeCitation.title ?? ""}>{activeCitation.title}</h5>
+        <div tabIndex={0}> 
+            <ReactMarkdown 
+                linkTarget="_blank"
+                className={styles.citationPanelContent}
+                children={activeCitation.content} 
+                remarkPlugins={[remarkGfm]} 
+                rehypePlugins={[rehypeRaw]}
+            />
+        </div>
+        {activeCitation.url && (
+            <span 
+                title={activeCitation.url} 
+                tabIndex={0} 
+                role="link" 
+                onClick={() => onViewSource(activeCitation)} 
+                onKeyDown={e => e.key === "Enter" || e.key === " " ? onViewSource(activeCitation) : null}
+                className={styles.viewSourceButton}
+                aria-label={activeCitation.url}
+            >
+                View Source
+            </span>
+        )}
+    </Stack.Item>
+)}
+{(appStateContext?.state.isChatHistoryOpen && appStateContext?.state.isCosmosDBAvailable?.status !== CosmosDBStatus.NotConfigured) && <ChatHistoryPanel/>}
+</Stack>
+)}
+</div>
+);
+
 export default Chat;
+
