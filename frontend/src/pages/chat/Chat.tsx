@@ -60,8 +60,7 @@ const enum messageStatus {
 
 
 const Chat: React.FC = () => {
-    const [selectedQuestion, setSelectedQuestion] = useState<string | undefined>(undefined);
-
+    const [selectedTopic, setSelectedTopic] = useState<string | undefined>(undefined);
     const [isLoading, setIsLoading] = useState(false);
     const [messages, setMessages] = useState([]);
     const appStateContext = useContext(AppStateContext)
@@ -101,28 +100,26 @@ const Chat: React.FC = () => {
 //     ];
 //   };
 
-  // Dropdown component
-  const Dropdown = ({ topics, selectedTopic, onSelectTopic }) => {
-  }
+ // Dropdown component
+const Dropdown = ({ topics, selectedTopic, onSelectTopic }) => {
     // Add this array right above the return statement in your component.
     const dropdownOptions = [
-       { key: 'question1', text: 'What is the meaning of life?' },
-       { key: 'question2', text: 'Tell me about artificial intelligence.' },
+      { key: 'question1', text: 'What is the meaning of life?' },
+      { key: 'question2', text: 'Tell me about artificial intelligence.' },
       // Add more questions as needed
-     ];
+    ];
+  
     return (
       <Dropdown
         placeholder="Select a question"
-        selectedKey={selectedQuestion}
-        onChange={(e, option) => setSelectedQuestion(option?.key as string)}
+        selectedKey={selectedTopic}  {/* Use selectedTopic here */}
+        onChange={(e, option) => onSelectTopic(option?.key as string)}  {/* Use onSelectTopic here */}
         options={dropdownOptions}
-        />
+      />
     );
   };
-// State to manage selected topic
-const [selectedTopic, setSelectedTopic] = React.useState<string | undefined>(undefined);
 
-
+ 
 
  // Handler for topic selection
  const handleSelectTopic = (topic: string) => {
@@ -754,7 +751,7 @@ const [selectedTopic, setSelectedTopic] = React.useState<string | undefined>(und
                                     modalProps={modalProps}
                                 >
                                 </Dialog>
-                            </Stack>
+                            {/* </Stack>
                             <Dropdown
                                 placeholder="Select a question"
                                 selectedKey={selectedQuestion}
@@ -774,7 +771,31 @@ const [selectedTopic, setSelectedTopic] = React.useState<string | undefined>(und
                                 }}
                                 conversationId={appStateContext?.state.currentChat?.id ? appStateContext?.state.currentChat?.id : undefined}
                             />
+                        </Stack> */}
+
+                        <Stack>
+                            {/* Other components */}
+                            <Dropdown
+                                placeholder="Select a question"
+                                selectedKey={selectedTopic} {/* Make sure to use selectedTopic here */}
+                                onChange={(e, option) => setSelectedTopic(option?.key as string)}
+                                options={dropdownOptions}
+                            />
+                            {/* Update the onSend prop of the QuestionInput component to include the dropdown value. */}
+                            <QuestionInput
+                                clearOnSend
+                                placeholder="Type a new question..."
+                                disabled={isLoading}
+                                onSend={(question, id) => {
+                                const selected = selectedTopic || question; {/* Make sure to use selectedTopic here */}
+                                appStateContext?.state.isCosmosDBAvailable?.cosmosDB
+                                    ? makeApiRequestWithCosmosDB(selected, id)
+                                    : makeApiRequestWithoutCosmosDB(selected, id);
+                                }}
+                                conversationId={appStateContext?.state.currentChat?.id ? appStateContext?.state.currentChat?.id : undefined}
+                            />
                         </Stack>
+
                     </div>
 
                     {/* Citation Panel */}
