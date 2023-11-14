@@ -61,9 +61,9 @@ html {
   height: 32px;
   background: radial-gradient(
     109.81% 107.82% at 100.1% 90.19%,
-    #e60012 33.63%,
-    #e60012 70.31%,
-    #e60012 100%
+    #0f6cbd 33.63%,
+    #2d87c3 70.31%,
+    #8dddd8 100%
   );
   border-radius: 4px;
   flex: none;
@@ -149,10 +149,6 @@ html {
   overflow-y: auto;
   max-height: calc(100vh - 100px);
 }
-
-
-
-
 ._chatEmptyState_ry9lb_30 {
   flex-grow: 1;
   display: flex;
@@ -185,7 +181,7 @@ html {
 }
 ._chatIcon_ry9lb_63 {
   height: 62px;
-  width: px;
+  width: 62px;
 }
 ._chatMessageStream_ry9lb_68 {
   flex-grow: 1;
@@ -271,7 +267,6 @@ html {
   border: 1px solid #d1d1d1;
   border-radius: 4px;
   z-index: 1;
-  background: rgb(230, 0, 18);
 }
 ._clearChatBroomNoCosmos_ry9lb_164,
 ._newChatIcon_ry9lb_181 {
@@ -289,7 +284,6 @@ html {
   border: 1px solid #d1d1d1;
   border-radius: 4px;
   z-index: 1;
-  background: rgb(230, 0, 18);
 }
 ._stopGeneratingContainer_ry9lb_198 {
   box-sizing: border-box;
@@ -603,8 +597,8 @@ sup {
   bottom: 0%;
   background: radial-gradient(
     106.04% 106.06% at 100.1% 90.19%,
-    rgb(230, 0, 18) 33.63%,
-    rgb(230, 0, 18) 100%
+    #0f6cbd 33.63%,
+    #8dddd8 100%
   );
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
