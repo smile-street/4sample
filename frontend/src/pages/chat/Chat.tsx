@@ -1,16 +1,34 @@
-import { useRef, useState, useEffect, useContext, useLayoutEffect } from "react";
-import { CommandBarButton, IconButton, Dialog, DialogType, Stack } from "@fluentui/react";
-import { DismissRegular, SquareRegular, ShieldLockRegular, ErrorCircleRegular } from "@fluentui/react-icons";
+// Import necessary dependencies and styles
+import React, { useEffect, useLayoutEffect } from 'react';
+import { Stack, CommandBarButton, Dialog, IconButton, Dropdown } from '@fluentui/react';
+import { ShieldLockRegular, SquareRegular, ErrorCircleRegular } from '@fluentui/react-icons';
+import { v4 as uuid } from 'uuid';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import rehypeRaw from 'rehype-raw';
 
-import ReactMarkdown from "react-markdown";
-import remarkGfm from 'remark-gfm'
-import rehypeRaw from "rehype-raw";
-import uuid from 'react-uuid';
-import { isEmpty } from "lodash-es";
+import QuestionInput from './QuestionInput'; // Assuming you have a QuestionInput component
+import Answer from './Answer'; // Assuming you have an Answer component
+import ChatHistoryPanel from './ChatHistoryPanel'; // Assuming you have a ChatHistoryPanel component
 
-import styles from "./Chat.module.css";
+import { getTopics } from './api'; // Assuming you have an API file with a getTopics function
+
+// Your existing component styles
+import styles from './Chat.module.css';
 import Azure from "../../assets/Azure.svg";
-import Az from "../../assets/Az.jpg";
+import { Dropdown } from '@fluentui/react';
+
+
+
+
+//import Az from '@/assets/Az.jpg';
+
+// ... rest of your code
+
+
+// ... rest of your code
+
+
 
 import {
     ChatMessage,
@@ -40,7 +58,12 @@ const enum messageStatus {
     Done = "Done"
 }
 
-const Chat = () => {
+
+const Chat: React.FC = () => {
+    const [selectedQuestion, setSelectedQuestion] = useState<string | undefined>(undefined);
+
+    const [isLoading, setIsLoading] = useState(false);
+    const [messages, setMessages] = useState([]);
     const appStateContext = useContext(AppStateContext)
     const chatMessageStreamEnd = useRef<HTMLDivElement | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -61,6 +84,53 @@ const Chat = () => {
         closeButtonAriaLabel: 'Close',
         subText: errorMsg?.subtitle,
     };
+
+    // Function to fetch the list of topics/questions
+    const getTopics = () => {
+    // In a real scenario, you might fetch this data from an API or database
+    // For now, we'll return a static array of topics/questions
+    return [
+      {
+        id: '1',
+        question: 'How does climate change affect ecosystems?',
+      },
+      {
+        id: '2',
+        question: 'What are the benefits of renewable energy?',
+      },
+    ];
+  };
+
+  // Dropdown component
+  const TopicDropdown = ({ topics, selectedTopic, onSelectTopic }) => {
+  }
+    // Add this array right above the return statement in your component.
+    const dropdownOptions = [
+       { key: 'question1', text: 'What is the meaning of life?' },
+       { key: 'question2', text: 'Tell me about artificial intelligence.' },
+      // Add more questions as needed
+     ];
+    return (
+      <Dropdown
+        placeholder="Select a question"
+        selectedKey={selectedQuestion}
+        onChange={(e, option) => setSelectedQuestion(option?.key as string)}
+        options={dropdownOptions}
+        />
+    );
+  };
+// State to manage selected topic
+const [selectedTopic, setSelectedTopic] = React.useState<string | undefined>(undefined);
+
+
+
+ // Handler for topic selection
+ const handleSelectTopic = (topic: string) => {
+    setSelectedTopic(topic);
+  };
+
+
+
 
     const modalProps = {
         titleAriaId: 'labelId',
@@ -572,7 +642,7 @@ const Chat = () => {
                         {!messages || messages.length < 1 ? (
                             <Stack className={styles.chatEmptyState}>
                                 <img
-                                    src={Az}
+                                  //  src={}
                                     className={styles.chatIcon}
                                     aria-hidden="true"
                                 />
@@ -685,12 +755,22 @@ const Chat = () => {
                                 >
                                 </Dialog>
                             </Stack>
+                            <Dropdown
+                                placeholder="Select a question"
+                                selectedKey={selectedQuestion}
+                                onChange={(e, option) => setSelectedQuestion(option?.key as string)}
+                                options={dropdownOptions}
+                                />
+                           // Update the onSend prop of the QuestionInput component to include the dropdown value.
                             <QuestionInput
                                 clearOnSend
                                 placeholder="Type a new question..."
                                 disabled={isLoading}
                                 onSend={(question, id) => {
-                                    appStateContext?.state.isCosmosDBAvailable?.cosmosDB ? makeApiRequestWithCosmosDB(question, id) : makeApiRequestWithoutCosmosDB(question, id)
+                                const selected = selectedQuestion || question;
+                                appStateContext?.state.isCosmosDBAvailable?.cosmosDB
+                                ? makeApiRequestWithCosmosDB(selected, id)
+                                : makeApiRequestWithoutCosmosDB(selected, id);
                                 }}
                                 conversationId={appStateContext?.state.currentChat?.id ? appStateContext?.state.currentChat?.id : undefined}
                             />
@@ -761,6 +841,5 @@ export default Chat; */}
 )}
 </div>
 );
-
+        }
 export default Chat;
-

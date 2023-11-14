@@ -19,7 +19,7 @@ const shareButtonStyles: ICommandBarStyles & IButtonStyles = {
       padding: '5px 12px',
       marginRight: '20px'
     },
-    icon: {s
+    icon: {
       color: '#FFFFFF',
     },
     rootHovered: {
@@ -32,6 +32,7 @@ const shareButtonStyles: ICommandBarStyles & IButtonStyles = {
       color: '#FFFFFF',
     },
   };
+
 
 const Layout = () => {
     const [isSharePanelOpen, setIsSharePanelOpen] = useState<boolean>(false);
