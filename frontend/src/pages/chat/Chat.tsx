@@ -106,30 +106,25 @@ const Chat: React.FC = () => {
 
  
 
-import { Dropdown, IDropdownOption } from '@fluentui/react';
 
-const dropdownOptions: IDropdownOption[] = topics.map(topic => ({
-    key: topic,
-    text: topic,
-}));
 
-return (
-    <Dropdown
-        placeholder="Select a question"
-        selectedKey={selectedTopic}
-        onChange={(e, option) => onSelectTopic(option?.key as string)}
-        options={dropdownOptions}
-    />
-);
+const Dropdown = () => {
+  return (
+    <div className="dropdown">
+      <a className="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        Dropdown link
+      </a>
+
+      <ul className="dropdown-menu">
+        <li><a className="dropdown-item" href="#">Action</a></li>
+        <li><a className="dropdown-item" href="#">Another action</a></li>
+        <li><a className="dropdown-item" href="#">Something else here</a></li>
+      </ul>
+    </div>
+  );
 };
 
-export default DropdownComponent;
-
-
- // Handler for topic selection
- const handleSelectTopic = (topic: string) => {
-    setSelectedTopic(topic);
-  };
+export default Dropdown;
 
 
 
@@ -649,7 +644,7 @@ export default DropdownComponent;
                                     aria-hidden="true"
                                 />
                                 <h1 className={styles.chatEmptyStateTitle}>Decision Intelligence Knowledge Base</h1>
-                                {/* <h2 className={styles.chatEmptyStateSubtitle}></h2> */}
+                                <h2 className={styles.chatEmptyStateSubtitle}></h2>
                             </Stack>
                         ) : (
                             <div className={styles.chatMessageStream} style={{ marginBottom: isLoading ? "40px" : "0px"}} role="log">
