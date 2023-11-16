@@ -643,8 +643,8 @@ export default Dropdown;
                                     className={styles.chatIcon}
                                     aria-hidden="true"
                                 />
-                                <h1 className={styles.chatEmptyStateTitle}>Decision Intelligence Knowledge Base</h1>
-                                <h2 className={styles.chatEmptyStateSubtitle}></h2>
+                                <h1 className={styles.chatEmptyStateTitle}></h1>
+                                <h2 className={styles.chatEmptyStateSubtitle}>Decision Intelligence Knowledge Base</h2>
                             </Stack>
                         ) : (
                             <div className={styles.chatMessageStream} style={{ marginBottom: isLoading ? "40px" : "0px"}} role="log">
