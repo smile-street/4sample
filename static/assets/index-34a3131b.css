@@ -140,6 +140,7 @@ html {
     flex-direction: column;
     align-items: center;
     background: url('./Fujitsu_Photo2.jpg') center center no-repeat;
+    background-size: cover;
     box-shadow: 0 2px 4px #00000024, 0 0 2px #0000001f;
     border-radius: 8px;
     overflow-y: auto;
