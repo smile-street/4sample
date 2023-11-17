@@ -12,6 +12,8 @@ import styles from "./Chat.module.css";
 import Azure from "../../assets/Azure.svg";
 import Az from "../../assets/Az.jpg";
 
+
+
 import {
     ChatMessage,
     ConversationRequest,
@@ -28,6 +30,7 @@ import {
     CosmosDBStatus,
     ErrorMessage
 } from "../../api";
+import { PreExistingUserInputs } from "../../components/QuestionInput";
 import { Answer } from "../../components/Answer";
 import { QuestionInput } from "../../components/QuestionInput";
 import { ChatHistoryPanel } from "../../components/ChatHistory/ChatHistoryPanel";
@@ -41,6 +44,7 @@ const enum messageStatus {
 }
 
 const Chat = () => {
+    const [initialQuestion, setInitialQuestion] = useState<string | null>(null);
     const appStateContext = useContext(AppStateContext)
     const chatMessageStreamEnd = useRef<HTMLDivElement | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -54,6 +58,81 @@ const Chat = () => {
     const [clearingChat, setClearingChat] = useState<boolean>(false);
     const [hideErrorDialog, { toggle: toggleErrorDialog }] = useBoolean(true);
     const [errorMsg, setErrorMsg] = useState<ErrorMessage | null>()
+
+
+    const handleStartChat = async (initialQuestion: string) => {
+        try {
+            // Update state to store the initial question
+            setInitialQuestion(initialQuestion);
+    
+            // Make an API call with the initial question
+            const response = await makeApiRequestWithCosmosDB1(initialQuestion);
+    
+            // Handle the API response as needed
+            if (response.ok) {
+                // Handle the case where the API returns no content (status code 204)
+                console.log("API call successful");
+    
+                // Process the result if needed
+                const result = await response.json();
+                console.log("API Response:", result);
+            } else {
+                // Handle API error
+                console.error("API Error:", response.statusText);
+            }
+        } catch (error) {
+            // Handle other errors
+            console.error("Error:", error);
+        }
+    };
+
+    // const makeApiRequestWithCosmosDB1 = async (question: string, conversationId?: string) => {
+    //     setIsLoading(true);
+    //     setShowLoadingMessage(true);
+    //     const abortController = new AbortController();
+    //     abortFuncs.current.unshift(abortController);
+    
+    //     const userMessage: ChatMessage = {
+    //         id: uuid(),
+    //         role: "user",
+    //         content: question,
+    //         date: new Date().toISOString(),
+    //     };
+    
+    //     let result: ChatResponse = {} as ChatResponse; // Initialize with the expected type
+    
+    //     // Rest of your code...
+    
+    //     try {
+    //         const response = conversationId
+    //             ? await historyGenerate(request, abortController.signal, conversationId)
+    //             : await historyGenerate(request, abortController.signal);
+    
+    //         if (!response.ok) {
+    //             // Handle API error
+    //             const errorText = await response.text();
+    //             console.error("API Error:", errorText);
+    //         } else {
+    //             // Process successful API response
+    //             if (response.body) {
+    //                 const reader = response.body.getReader();
+    //                 let runningText = "";
+    
+    //                 // Rest of your code...
+    //             }
+    //         }
+    //     } catch (error) {
+    //         // Handle other errors
+    //         console.error("Error:", error);
+    //     } finally {
+    //         setIsLoading(false);
+    //         setShowLoadingMessage(false);
+    //         abortFuncs.current = abortFuncs.current.filter(a => a !== abortController);
+    //         setProcessMessages(messageStatus.Done);
+    //     }
+    // };
+    
+    
 
     const errorDialogContentProps = {
         type: DialogType.close,
@@ -166,7 +245,15 @@ const Chat = () => {
 
         let result = {} as ChatResponse;
         try {
-            const response = await conversationApi(request, abortController.signal);
+            
+            const response = conversationId
+            ? await historyGenerate(request, abortController.signal, conversationId)
+            : await historyGenerate(request, abortController.signal);
+            if (!response.ok) {
+                // Handle API error
+                const errorText = await response.text();
+                console.error("API Error:", errorText);
+            } else {
             if (response?.body) {
                 const reader = response.body.getReader();
                 let runningText = "";
@@ -581,6 +668,13 @@ const Chat = () => {
                             </Stack>
                         ) : (
                             <div className={styles.chatMessageStream} style={{ marginBottom: isLoading ? "40px" : "0px"}} role="log">
+                                {/* Add PreExistingUserInputs component here */}
+                                <PreExistingUserInputs startChat={(handleStartChat) => /* handle start chat */} />
+
+                                {messages.map((answer, index) => (
+                                    // ... (your existing code)
+                                ))}
+                                {showLoadingMessage && (
                                 {messages.map((answer, index) => (
                                     <>
                                         {answer.role === "user" ? (
