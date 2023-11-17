@@ -30,7 +30,7 @@ import {
     CosmosDBStatus,
     ErrorMessage
 } from "../../api";
-import { PreExistingUserInputs } from "../../components/QuestionInput";
+import  PreExistingUserInputs  from '../../components/QuestionInput/PreExistingUserInputs';
 import { Answer } from "../../components/Answer";
 import { QuestionInput } from "../../components/QuestionInput";
 import { ChatHistoryPanel } from "../../components/ChatHistory/ChatHistoryPanel";
@@ -66,7 +66,7 @@ const Chat = () => {
             setInitialQuestion(initialQuestion);
     
             // Make an API call with the initial question
-            const response = await makeApiRequestWithCosmosDB1(initialQuestion);
+            const response = await makeApiRequestWithCosmosDB(initialQuestion);
     
             // Handle the API response as needed
             if (response.ok) {
@@ -245,15 +245,7 @@ const Chat = () => {
 
         let result = {} as ChatResponse;
         try {
-            
-            const response = conversationId
-            ? await historyGenerate(request, abortController.signal, conversationId)
-            : await historyGenerate(request, abortController.signal);
-            if (!response.ok) {
-                // Handle API error
-                const errorText = await response.text();
-                console.error("API Error:", errorText);
-            } else {
+            const response = await conversationApi(request, abortController.signal);
             if (response?.body) {
                 const reader = response.body.getReader();
                 let runningText = "";
@@ -287,7 +279,7 @@ const Chat = () => {
                 setMessages([...messages, toolMessage, assistantMessage]);
             }
             
-        } catch ( e )  {
+        } catch ( error )  {
             if (!abortController.signal.aborted) {
                 let errorMessage = "An error occurred. Please try again. If the problem persists, please contact the site administrator.";
                 if (result.error?.message) {
@@ -300,8 +292,8 @@ const Chat = () => {
                     id: uuid(),
                     role: ERROR,
                     content: errorMessage,
-                    date: new Date().toISOString()
-                }
+                    date: new Date().toISOString(),
+                };
                 conversation.messages.push(errorChatMsg);
                 appStateContext?.dispatch({ type: 'UPDATE_CURRENT_CHAT', payload: conversation });
                 setMessages([...messages, errorChatMsg]);
@@ -317,6 +309,7 @@ const Chat = () => {
 
         return abortController.abort();
     };
+
 
     const makeApiRequestWithCosmosDB = async (question: string, conversationId?: string) => {
         setIsLoading(true);
